@@ -30,8 +30,14 @@ def seed_if_empty(db: Session) -> None:
     ]
     for dcode, icode, qty in bom:
         db.add(BomLine(dish_id=dish_ids[dcode], ingredient_id=ing_ids[icode], qty_per_portion=qty))
-    order = KitchenOrder(code="KO-0901", outlet="城西门店", status="open")
-    db.add(order); db.flush()
-    for dcode, portions in [("D-HS", 40), ("D-YC", 30), ("D-JT", 50)]:
-        db.add(OrderLine(order_id=order.id, dish_id=dish_ids[dcode], portions=portions))
+    orders = [
+        ("KO-0901", "城西门店", [("D-HS", 40), ("D-YC", 30), ("D-JT", 50)]),
+        ("KO-0902", "城东门店", [("D-HS", 25), ("D-JT", 35)]),
+        ("KO-0903", "城南门店", [("D-YC", 20), ("D-JT", 10)]),
+    ]
+    for code, outlet, lines in orders:
+        order = KitchenOrder(code=code, outlet=outlet, status="open")
+        db.add(order); db.flush()
+        for dcode, portions in lines:
+            db.add(OrderLine(order_id=order.id, dish_id=dish_ids[dcode], portions=portions))
     db.commit()

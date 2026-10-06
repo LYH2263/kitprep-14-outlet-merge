@@ -169,3 +169,14 @@ th { color: var(--kp-muted); font-weight: 700; font-size: 0.75rem; }
 .stat { font-size: 1.5rem; font-weight: 800; }
 
 .tree ul { list-style: none; padding-left: 1.2rem; margin: 0.25rem 0; }
+
+.kp-chip.picked {
+  background: var(--kp-accent); color: #1c1208; font-weight: 800;
+  border-color: #1c1208;
+}
+.kp-chip { cursor: pointer; user-select: none; }
+.kp-error {
+  color: #ffb4a8; background: rgba(179,58,43,0.25);
+  border: 1px solid var(--kp-bad); border-radius: 2px;
+  padding: 0.4rem 0.6rem; font-size: 0.8rem; margin: 0.5rem 0 0;
+}
