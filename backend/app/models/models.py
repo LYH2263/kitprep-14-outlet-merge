@@ -45,3 +45,17 @@ class PrepRun(Base):
     order_id: Mapped[int] = mapped_column(ForeignKey("kitchen_orders.id"))
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
     result_json: Mapped[str] = mapped_column(Text, default="{}")
+
+class MergedPrepRun(Base):
+    """两家门店合成一次备料的批次。源订单只读，永不改字。"""
+    __tablename__ = "merged_prep_runs"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    result_json: Mapped[str] = mapped_column(Text, default="{}")
+
+class MergedPrepRunOrder(Base):
+    """合单批次与源订单的关联（恰好两家）。"""
+    __tablename__ = "merged_prep_run_orders"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    run_id: Mapped[int] = mapped_column(ForeignKey("merged_prep_runs.id"))
+    order_id: Mapped[int] = mapped_column(ForeignKey("kitchen_orders.id"))
